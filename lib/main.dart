@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:weather_app/view_model/home_page_vm.dart';
+import 'view/home_page.dart';
 
-import 'MyHomePage.dart';
 
 void main() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -53,7 +56,11 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.white,
         )
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: 
+      ChangeNotifierProvider(
+        create: (context) => HomePageVM(),
+        child: MyHomePage(),
+      ),
     );
   }
 }
