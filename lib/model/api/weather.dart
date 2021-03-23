@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class Weather {
+  
   final int id;
   final String main;
   final String description;
