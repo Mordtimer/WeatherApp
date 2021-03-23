@@ -11,6 +11,7 @@ class Forecast {
   final SystemInfo systemInfo;
   final Clouds clouds;
   final Wind wind;
+  final int statusCode;
 
   Forecast({
     @required this.weather,
@@ -18,6 +19,7 @@ class Forecast {
     @required this.systemInfo,
     @required this.clouds,
     @required this.wind,
+    @required this.statusCode
   });
 
   factory Forecast.fromJson(Map<String, dynamic> json) {
@@ -26,6 +28,8 @@ class Forecast {
         mainData: json['mainData'],
         systemInfo: json['systemInfo'],
         clouds: json['clouds'],
+        statusCode: json['code'],
         wind: json['wind']);
+        
   }
 }

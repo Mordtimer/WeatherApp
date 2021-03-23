@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:weather_app/view_model/home_page_vm.dart';
 import 'Tile.dart';
 import 'custom_icons/custom_icons.dart';
 
@@ -22,6 +24,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 
   @override
+  void initState() {
+    super.initState();
+    Provider.of<HomePageVM>(context, listen: false).fetchForecast();
+  }
+  @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
     // by the _incrementCounter method above.
@@ -31,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // than having to individually change instances of widgets.
 
     return Scaffold(
+      
       appBar: AppBar(
           centerTitle: true,
           leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
