@@ -23,9 +23,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-
         scaffoldBackgroundColor: Colors.black,
-
         appBarTheme: AppBarTheme(
           color: Colors.black,
           elevation: 1

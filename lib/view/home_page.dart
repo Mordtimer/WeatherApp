@@ -28,6 +28,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     Provider.of<HomePageVM>(context, listen: false).fetchForecast();
   }
+
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -36,6 +37,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
+    
+    final vm = Provider.of<HomePageVM>(context);
 
     return Scaffold(
       
@@ -97,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
               ),
             ),
             Expanded(
-              flex: 5,
+              flex: 7,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -105,14 +108,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Icon(MyFlutterApp.wi_sunrise,
                           size: 40, color: Colors.white),
-                      Text('8:00', style: TextStyle(color: Colors.white)),
+                      Text(vm.forecast.systemInfo.sunrise.toString(), style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   Column(
                     children: [
                       Icon(MyFlutterApp.wi_sunset,
                           size: 40, color: Colors.white),
-                      Text('20:00', style: TextStyle(color: Colors.white)),
+                      Text(vm.forecast.systemInfo.sunset.toString(), style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ],
@@ -123,21 +126,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 Tile(
                     Icon(MyFlutterApp.wi_barometer,
                         size: 40, color: Colors.white),
-                    '1024'),
+                    vm.forecast.mainData.pressure.toString()),
                 Tile(
                     Icon(MyFlutterApp.wi_thermometer,
                         size: 40, color: Colors.white),
-                    '10'),
+                    vm.forecast.mainData.temp.toString()),
               ],
             ),
             Row(
               children: [
                 Tile(Icon(MyFlutterApp.wi_windy, size: 40, color: Colors.white),
-                    '1024'),
+                    vm.forecast.wind.speed.toString()),
                 Tile(
                     Icon(MyFlutterApp.wi_humidity,
                         size: 40, color: Colors.white),
-                    '1024'),
+                    vm.forecast.mainData.humidity.toString()),
               ],
             )
           ],

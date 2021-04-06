@@ -9,6 +9,7 @@ class HomePageVM extends ChangeNotifier {
     final response =
         await Webservice().fetchForecast('test');
     if (response.statusCode == 200) {
+      forecast = response;
       notifyListeners();
     } else {
       throw Exception('Failed to get response from server');
