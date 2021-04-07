@@ -3,18 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:weather_app/view_model/home_page_vm.dart';
 import 'Tile.dart';
 import 'custom_icons/custom_icons.dart';
+import 'search.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
   @override
@@ -22,7 +14,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   @override
   void initState() {
     super.initState();
@@ -31,28 +22,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    
-    final vm = Provider.of<HomePageVM>(context);
+    HomePageVM vm = Provider.of<HomePageVM>(context);
 
     return Scaffold(
-      
       appBar: AppBar(
           centerTitle: true,
           leading: IconButton(icon: Icon(Icons.menu), onPressed: () {}),
           title: Text(
-            'Tarnowskie Góry',
+            vm.currentCity,
             style: Theme.of(context).primaryTextTheme.headline6,
           ),
           actions: [
             IconButton(
               icon: const Icon(Icons.search),
-              onPressed: () {},
+              onPressed: () async {
+                final result = await showSearch(
+                    context: context,
+                    delegate: Search(vm.searchHistory, vm.allCities)) as String;
+                vm.currentCity = result;
+                print(result + ' XD ' + vm.currentCity);
+                vm.fetchForecast();
+              },
             ),
           ]),
       body: Container(
@@ -67,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 Container(
                     padding: EdgeInsets.fromLTRB(8, 0, 0, 8),
                     child: Text(
-                      '24 Grudnia, 14:00',
+                      vm.getCurrentDate(),
                       style: TextStyle(color: Colors.white),
                     )),
               ]),
@@ -85,11 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Center(
-                                child: Icon(
-                              MyFlutterApp.wi_day_sunny,
-                              size: 100,
-                              color: Colors.white,
-                            )),
+                                child: Image.network(vm.getIconUrl(),
+                                    fit: BoxFit.cover)),
                           ),
                         ],
                       ),
@@ -108,14 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     children: [
                       Icon(MyFlutterApp.wi_sunrise,
                           size: 40, color: Colors.white),
-                      Text(vm.forecast.systemInfo.sunrise.toString(), style: TextStyle(color: Colors.white)),
+                      Text(vm.getSunriseTime(),
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                   Column(
                     children: [
                       Icon(MyFlutterApp.wi_sunset,
                           size: 40, color: Colors.white),
-                      Text(vm.forecast.systemInfo.sunset.toString(), style: TextStyle(color: Colors.white)),
+                      Text(vm.getSunetTime(),
+                          style: TextStyle(color: Colors.white)),
                     ],
                   ),
                 ],
@@ -126,21 +115,21 @@ class _MyHomePageState extends State<MyHomePage> {
                 Tile(
                     Icon(MyFlutterApp.wi_barometer,
                         size: 40, color: Colors.white),
-                    vm.forecast.mainData.pressure.toString()),
+                    vm.getPressure()),
                 Tile(
                     Icon(MyFlutterApp.wi_thermometer,
                         size: 40, color: Colors.white),
-                    vm.forecast.mainData.temp.toString()),
+                    vm.getTempreture()),
               ],
             ),
             Row(
               children: [
                 Tile(Icon(MyFlutterApp.wi_windy, size: 40, color: Colors.white),
-                    vm.forecast.wind.speed.toString()),
+                    vm.getWindSpeed()),
                 Tile(
                     Icon(MyFlutterApp.wi_humidity,
                         size: 40, color: Colors.white),
-                    vm.forecast.mainData.humidity.toString()),
+                    vm.getHumidity()),
               ],
             )
           ],
@@ -149,4 +138,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-

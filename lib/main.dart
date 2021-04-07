@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:provider/provider.dart';
 import 'package:weather_app/view_model/home_page_vm.dart';
 import 'view/home_page.dart';
@@ -30,6 +29,8 @@ class MyApp extends StatelessWidget {
         ),
         
         cardColor: Colors.blueGrey[900],
+        
+      
 
         primaryTextTheme: TextTheme(
             headline6: TextStyle(
@@ -45,6 +46,9 @@ class MyApp extends StatelessWidget {
         create: (context) => HomePageVM(),
         child: MyHomePage(),
       ),
+      routes: {
+        'home': (context)=>MyHomePage()
+      },
     );
   }
 }

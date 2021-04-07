@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'clouds.dart';
 import 'main_data.dart';
 import 'system_info.dart';
 import 'weather.dart';
