@@ -7,8 +7,7 @@ class MainData {
   final double tempMax;
   final double pressure;
   final double humidity;
-  final String iconNumber;
-  final String iconUrl;
+
 
   MainData({
     @required this.temp,
@@ -17,8 +16,6 @@ class MainData {
     @required this.tempMax,
     @required this.pressure,
     @required this.humidity,
-    @required this.iconNumber,
-    @required this.iconUrl,
   });
 
   factory MainData.fromJson(Map<String, dynamic> json) {
@@ -29,9 +26,6 @@ class MainData {
         tempMin: json['temp_min'].toDouble(),
         tempMax: json['temp_max'].toDouble(),
         pressure: json['pressure'].toDouble(),
-        humidity: json['humidity'].toDouble(),
-        iconNumber: json['icon'],
-        iconUrl:
-          "https://openweathermap.org/img/wn/${json['icon'] as String}@2x.png");
+        humidity: json['humidity'].toDouble());
   }
 }

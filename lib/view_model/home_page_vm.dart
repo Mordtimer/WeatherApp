@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:weather_app/model/api/forecast.dart';
+import 'package:weather_app/model/cities.dart';
 import 'package:weather_app/model/webservice.dart';
 import 'package:intl/intl.dart';
 
@@ -31,10 +32,22 @@ class HomePageVM extends ChangeNotifier {
     "Gliwice",
     "Olsztyn",
     "Bytom",
-    "Żory"
+    "Żory",
+    "Kcynia"
   ];
 
   String currentCity = "Warszawa";
+  bool isSeniorModeEnabled = false;
+
+  void enableSeniorView() {
+    isSeniorModeEnabled = true;
+    notifyListeners();
+  }
+
+  void disableSeniorView() {
+    isSeniorModeEnabled = false;
+    notifyListeners();
+  }
 
   // Interface metod
   String getTempreture() {
@@ -62,7 +75,7 @@ class HomePageVM extends ChangeNotifier {
     if (_forecast == null)
       return "";
     else
-      return _forecast.mainData.pressure.toInt().toString() + " hPA";
+      return _forecast.mainData.pressure.toInt().toString() + " hPa";
   }
 
   String getSunriseTime() {
@@ -91,17 +104,13 @@ class HomePageVM extends ChangeNotifier {
   }
 
   String getIconUrl() {
-    if (_forecast == null)
+    try {
+      return _generateIconUrl(_forecast.weather[0].icon);
+    } catch (e) {
+      //returning placeholder
       return "https://openweathermap.org/img/wn/09d@2x.png";
-    else if (_forecast.mainData.iconNumber == null)
-      return "https://openweathermap.org/img/wn/09d@2x.png";
-    else
-      return _generateIconUrl(_forecast.mainData.iconNumber);
+    }
   }
-/*
-  Future<void> setCurrentCity(String city){
-  
-  }*/
 
   Future<void> fetchForecast() async {
     final response = await Webservice().fetchForecast(currentCity);
@@ -111,6 +120,22 @@ class HomePageVM extends ChangeNotifier {
     } else {
       throw Exception('Failed to get response from server');
     }
+  }
+
+  Future<void> getCities() async {
+    final response = await Cities().loadAll();
+    List<String> result = [];
+    final list = response[0][0].split('\n');
+    for (String el in list) {
+        result.add(removeBefore(el, ';'));
+    }
+    allCities = result;
+  }
+
+  String removeBefore(String s, String el) {
+    var pos = s.lastIndexOf(el);
+    String result = (pos != -1) ? s.substring(pos+1, s.length) : s;
+    return result;
   }
 
   _generateIconUrl(iconNumber) =>

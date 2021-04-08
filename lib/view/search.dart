@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Search extends SearchDelegate {
   String selectedResult;
-  List<String> listExample = ["Warszawa", "Katowice", "Poznań", "Gliwice"];
-  List<String> recentList = ["Wałbrzych", "Skierniewice"];
+  List<String> listExample = [];
+  List<String> recentList = [];
   Search(this.recentList, this.listExample);
 
     @override
@@ -43,7 +43,12 @@ class Search extends SearchDelegate {
         ),
       );
     }
-  
+
+    void addToHistory(String element){
+      recentList.remove(element);
+      recentList.insert(0, element);
+    }
+
     @override
     Widget buildSuggestions(BuildContext context) {
       List<String> suggestionList = [];
@@ -61,6 +66,7 @@ class Search extends SearchDelegate {
             tileColor: Colors.blueGrey[900],
             onTap: (){
               selectedResult = suggestionList[index];
+              addToHistory(selectedResult);
               print(selectedResult);
               close(context, selectedResult);
             },

@@ -6,7 +6,7 @@ import 'view/home_page.dart';
 
 
 void main() {
-
+  
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     
     statusBarBrightness: Brightness.light,//status bar brigtness
@@ -41,6 +41,7 @@ class MyApp extends StatelessWidget {
           displayColor: Colors.white,
         )
       ),
+      debugShowCheckedModeBanner: false,
       home: 
       ChangeNotifierProvider(
         create: (context) => HomePageVM(),

@@ -27,7 +27,6 @@ class Forecast {
         weather: weatherList.map((i) => Weather.fromJson(i)).toList(),
         mainData: MainData.fromJson(json['main']),
         systemInfo: SystemInfo.fromJson(json['sys']),
-        //clouds: json['clouds'],
         statusCode: json['cod'],
         wind: Wind.fromJson(json['wind']));
         
